@@ -1,0 +1,10 @@
+[package]
+name = "sssd"
+version = "1.0.0"
+authors = ["hansan"]
+edition = "2021"
+license = "MIT"
+description = "A simple way to let your app support like ./your_app start | stop | status | daemon."
+
+[dependencies]
+sysinfo = "0.29"
