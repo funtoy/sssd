@@ -5,6 +5,7 @@ authors = ["hansan"]
 edition = "2021"
 license = "MIT"
 description = "A simple way to let your app support like ./your_app start | stop | status | daemon."
+repository = "https://github.com/funtoy/sssd"
 
 [dependencies]
 sysinfo = "0.29"
