@@ -1,11 +1,13 @@
 /// A simple way to let your app support like ./your_app start | stop | status | daemon.
 /// # Examples
-/// ```
-/// #[actix_web::main]
+///
+/// linux里面，app名字不要超过15个字符
+/// 
+/// #[tokio::main]
 /// async fn main() {
-///     sssd::create(|| your_async_func()).await
+///     sssd::create(your_async_func).await
 /// }
-/// ```
+///
 use std::env;
 use std::fs::{create_dir, OpenOptions};
 use std::future::Future;
@@ -15,7 +17,7 @@ use sysinfo::{PidExt, ProcessExt, System, SystemExt};
 pub async fn create<F, Fut>(func: F)
 where
     F: FnOnce() -> Fut,
-    Fut: Future<Output = Result<(), std::io::Error>>,
+    Fut: Future<Output = Result<(), Box<dyn std::error::Error>>>,
 {
     let app = get_exec_name().unwrap();
     let args: Vec<String> = env::args().collect();
