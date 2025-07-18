@@ -13,11 +13,12 @@ use std::fs::{create_dir, OpenOptions};
 use std::future::Future;
 use std::process::Command;
 use sysinfo::{PidExt, ProcessExt, System, SystemExt};
+use anyhow::Result;
 
 pub async fn create<F, Fut>(func: F)
 where
     F: FnOnce() -> Fut,
-    Fut: Future<Output = Result<(), Box<dyn std::error::Error>>>,
+    Fut: Future<Output = Result<()>>,
 {
     let app = get_exec_name().unwrap();
     let args: Vec<String> = env::args().collect();

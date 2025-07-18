@@ -1,6 +1,6 @@
 [package]
 name = "sssd"
-version = "1.0.1"
+version = "1.0.3"
 authors = ["hansan"]
 edition = "2021"
 license = "MIT"
@@ -9,3 +9,4 @@ repository = "https://github.com/funtoy/sssd"
 
 [dependencies]
 sysinfo = "0.29"
+anyhow = "1"
