@@ -8,4 +8,8 @@ linux里面，app名字不要超过15个字符
 async fn main() {
     sssd::create(your_async_func).await
 }
+
+async fn your_async_func() -> anyhow::Result<()> {
+    // ...
+}
 ```

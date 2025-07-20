@@ -7,6 +7,10 @@
 /// async fn main() {
 ///     sssd::create(your_async_func).await
 /// }
+/// 
+/// async fn your_async_func() -> anyhow::Result<()> {
+///     // ...
+/// }
 ///
 use std::env;
 use std::fs::{create_dir, OpenOptions};
