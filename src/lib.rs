@@ -12,7 +12,7 @@ use std::env;
 use std::fs::{create_dir, OpenOptions};
 use std::future::Future;
 use std::process::Command;
-use sysinfo::{PidExt, ProcessExt, System, SystemExt};
+use sysinfo::System;
 use anyhow::Result;
 
 pub async fn create<F, Fut>(func: F)
@@ -31,9 +31,9 @@ where
 
         "stop" => {
             let sys = System::new_all();
-            for process in sys.processes_by_name(&app) {
+            for process in sys.processes_by_exact_name(&app.as_ref()) {
                 if process.pid().as_u32().ne(&std::process::id()) {
-                    println!("<{}> {} is stopping...", process.pid(), process.name());
+                    println!("<{}> {:?} is stopping...", process.pid(), process.name());
                     process.kill();
                 }
             }
@@ -87,15 +87,12 @@ fn get_exec_name() -> Option<String> {
 
 fn status(app: &str) -> (String, bool) {
     let sys = System::new_all();
-    for process in sys.processes_by_name(&app) {
+    for process in sys.processes_by_exact_name(&app.as_ref()) {
         if process.pid().as_u32().ne(&std::process::id()) {
-            return (
-                format!("<{}> {} is running.", process.pid(), process.name()),
-                true,
-            );
+            return (format!("<{}> {:?} is running.", process.pid(), process.name()), true);
         }
     }
-    return (format!("{app} is stopped!"), false);
+    (format!("{app} is stopped!"), false)
 }
 
 fn matching(args: Vec<String>) -> String {
@@ -113,5 +110,5 @@ fn matching(args: Vec<String>) -> String {
             return arg;
         }
     }
-    return "help".to_string();
+    "help".to_string()
 }

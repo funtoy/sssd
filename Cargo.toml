@@ -8,5 +8,5 @@ description = "A simple way to let your app support like ./your_app start | stop
 repository = "https://github.com/funtoy/sssd"
 
 [dependencies]
-sysinfo = "0.29"
+sysinfo = "0.36"
 anyhow = "1"
