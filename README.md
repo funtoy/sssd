@@ -1,15 +1,22 @@
+# A simple way to let your app support like
 
-A simple way to let your app support like ./your_app start | stop | status | daemon.
+```shell
+./your_app start | stop | status | daemon
+```
 
-linux里面，app名字不要超过15个字符
+## Examples
 
 ```rust
 #[tokio::main]
 async fn main() {
-    sssd::create(your_async_func).await
+    sssd::create(your_async_func, Some(stop_callback_func)).await
 }
 
 async fn your_async_func() -> anyhow::Result<()> {
+    // ...
+}
+
+async fn stop_callback_func() -> anyhow::Result<()> {
     // ...
 }
 ```
