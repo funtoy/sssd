@@ -24,12 +24,29 @@ enum Commands {
 /// ```shell
 /// ./your_app start | stop | status | daemon
 /// ```
-/// # Examples
+/// # create
 ///
 /// ```rust
 /// #[tokio::main]
 /// async fn main() {
-///     sssd::create(your_async_func, Some(stop_callback)).await
+///     sssd::create(your_async_func).await
+/// }
+///```
+pub async fn create<F, Fut>(func: F)
+where
+    F: FnOnce() -> Fut,
+    Fut: Future<Output = anyhow::Result<()>>,
+{
+    let stop_callback = async || -> anyhow::Result<()> { Ok(()) };
+    create_with_stop(func, stop_callback).await
+}
+
+/// # create_with_stop
+///
+/// ```rust
+/// #[tokio::main]
+/// async fn main() {
+///     sssd::create_with_stop(your_async_func, stop_callback).await
 /// }
 ///
 /// async fn your_async_func() -> anyhow::Result<()> {
@@ -40,7 +57,7 @@ enum Commands {
 ///     // ...
 /// }
 ///```
-pub async fn create<F, Fut, S, SFut>(func: F, stop_callback: Option<S>)
+pub async fn create_with_stop<F, Fut, S, SFut>(func: F, stop_callback: S)
 where
     F: FnOnce() -> Fut,
     Fut: Future<Output = anyhow::Result<()>>,
@@ -57,9 +74,7 @@ where
                 }
                 _ = tokio::signal::ctrl_c() => {
                     println!("Gracefully shutting down...");
-                    if let Some(callback) = stop_callback {
-                        if let Err(e) = callback().await { eprintln!("Application Stop error: {}", e); }
-                    }
+                    if let Err(e) = stop_callback().await { eprintln!("Application Stop error: {}", e); }
                 }
             }
         }
