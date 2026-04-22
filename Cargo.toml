@@ -1,10 +1,10 @@
 [package]
 name = "sssd"
-version = "2.1.0"
+version = "2.2.0"
 authors = ["hansan"]
 edition = "2021"
 license = "MIT"
-description = "A simple way to let your app support like ./your_app start | stop | status | daemon."
+description = "A simple way to let your app support like ./your_app start [-d] | stop | status | daemon."
 repository = "https://github.com/funtoy/sssd"
 
 [dependencies]

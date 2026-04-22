@@ -1,7 +1,7 @@
 # A simple way to let your app support like
 
 ```shell
-./your_app start | stop | status | daemon
+./your_app start [-d] | stop | status | daemon
 ```
 
 ## Examples
